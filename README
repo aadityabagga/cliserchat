@@ -100,7 +100,15 @@ Hello
 
 Waiting for response... 
 
-c) The server responds-
+c) The server gets the clients message and responds-
+
+Connection received from client.
+IP: /127.0.0.1	Port: 59048	Name: localhost
+
+Waiting for response... 
+
+CLIENT->
+Hello
 
 Enter message (Type /y to terminate the message) :
 Hi
