@@ -1,4 +1,4 @@
-This is a Client-Server Chat Application, written in java, uses sockets.
+This is a Client-Server Chat Application, written in java, using sockets.
 Using this one can connect 2 people/computers/terminals.
 
 Requirements-
@@ -33,9 +33,15 @@ $ java MyServer localhost 2055
 This assumes that the server is on the same system/host as the client;
 if the server is located elsewhere, one can use the form:
 
-$ java MyServer 192.168.1.4 2055
+$ java MyClient 192.168.1.4
 
 Here 192.168.1.4 is the IP address of the server.
+
+If you get a "Connection refused" exception, then perhaps you have given the
+wrong IP or port address.
+
+When connecting from different machines, the ports for the communication should
+be available; otherwise you could get a "Connection timed out" exeception.
 
 Code-
 
@@ -51,7 +57,7 @@ and
 
 $ javac MyClient.java
 
-to compile the code to class files.
+to compile the code to class files (requires jdk / java development kit).
 
 Note-
 
