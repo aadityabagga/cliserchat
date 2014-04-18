@@ -38,7 +38,10 @@ $ java MyServer 192.168.1.4 2055
 Here 192.168.1.4 is the IP address of the server.
 
 Code-
-The code is included along with the class files, as MyServer.java and MyClass.java
+
+The code is included along with the class files, as MyServer.java and MyClass.java,
+and is licensed under the GNU GPL.
+
 If the class files are not running on your system, or you want to modify the code,
 one can use-
 
@@ -51,9 +54,12 @@ $ javac MyClient.java
 to compile the code to class files.
 
 Note-
+
 This application is not multithreaded, so at a time only a single client can chat with the server.
+
 If two people want to communicate using this application, one can run the server, and the other
 can run the client giving the IP of the server.
+
 If the 2nd person wants to initiate the chat, then he can start the server, and the 1st person can
 run the client.
 
