@@ -118,17 +118,25 @@ class MyClient
     public static void main(String args[]) throws Exception
 	{
 	    MyClient c1=new MyClient();
+	    String ipaddr="127.0.0.1";
 
 	    /*Parse command line options*/
 
 		try {
-			if(args[0] != null && args[1] != null);
-			// If no error thrown
-			c1.runCli(args[0],Integer.parseInt(args[1]));
+			if(args[0] != null) {
+				ipaddr=args[0];
+				if(args[1] != null) {
+					// If no error thrown
+					c1.runCli(args[0],Integer.parseInt(args[1]));
+				}
+				
+			}
+			
+			
 		}
 		catch(ArrayIndexOutOfBoundsException e1)
 		{
-			c1.runCli("127.0.0.1",1025);
+			c1.runCli(ipaddr,1025);
 			//System.out.println("Please enter arguments");
 		}
 	}
