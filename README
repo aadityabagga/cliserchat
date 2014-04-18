@@ -10,8 +10,8 @@ The Server program is named as MyServer.class and
 the Client program is named as MyClient.class
 
 The Server needs to be started first.
-It can be started by typing MyServer in the folder where the MyServer.class
-file is present:
+It can be started by typing MyServer in the terminal, inside the folder
+where the MyServer.class file is present:
 
 $ java MyServer
 
@@ -56,3 +56,57 @@ If two people want to communicate using this application, one can run the server
 can run the client giving the IP of the server.
 If the 2nd person wants to initiate the chat, then he can start the server, and the 1st person can
 run the client.
+
+Demo-
+
+a) Starting the server-
+
+$ java MyServer
+-----------------------------------------------------------
+Client-Server Chat Application 
+-----------------------------------------------------------
+Press Ctrl^C or Alt+F4 to quit this application.
+
+Server- Using port: 1025
+Waiting for connection from Client..
+
+b) Starting the client on another terminal and typing a message-
+
+$ java MyClient
+-----------------------------------------------------------
+Client-Server Chat Application 
+-----------------------------------------------------------
+Press Ctrl^C or Alt+F4 to quit this application.
+
+Client- Using port: 58541
+Successfully connected to Server.
+IP: /127.0.0.1	Port: 1025	Name: localhost
+
+Enter message (Type /y to terminate the message) :
+Hello
+/y
+
+Waiting for response... 
+
+c) The server responds-
+
+Enter message (Type /y to terminate the message) :
+Hi
+/y
+
+Waiting for response... 
+
+d) The client receives the message-
+
+SERVER->
+Hi
+
+Enter message (Type /y to terminate the message) :
+How are you?
+/y
+
+Waiting for response... 
+
+e) And so on..
+
+On pressing Ctrl^C, the application quits.
