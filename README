@@ -1,0 +1,58 @@
+This is a Client-Server Chat Application, written in java, uses sockets.
+Using this one can connect 2 people/computers/terminals.
+
+Requirements-
+java (jre / java runtime environment)
+
+Usage-
+
+The Server program is named as MyServer.class and
+the Client program is named as MyClient.class
+
+The Server needs to be started first.
+It can be started by typing MyServer in the folder where the MyServer.class
+file is present:
+
+$ java MyServer
+
+Then the Client can be started similar to the server, like:
+
+$ java MyClient
+
+By defualt, when no arguments are specified, both the client and server are
+assumed to be on the same system/host, and the port 1025 is used for communication.
+
+Different ports for the server can be used as:
+
+$ java MyServer 2055
+
+Then to connect the client to the server:
+
+$ java MyServer localhost 2055
+
+This assumes that the server is on the same system/host as the client;
+if the server is located elsewhere, one can use the form:
+
+$ java MyServer 192.168.1.4 2055
+
+Here 192.168.1.4 is the IP address of the server.
+
+Code-
+The code is included along with the class files, as MyServer.java and MyClass.java
+If the class files are not running on your system, or you want to modify the code,
+one can use-
+
+$ javac MyServer.java
+
+and
+
+$ javac MyClient.java
+
+to compile the code to class files.
+
+Note-
+This application is not multithreaded, so at a time only a single client can chat with the server.
+If two people want to communicate using this application, one can run the server, and the other
+can run the client giving the IP of the server.
+If the 2nd person wants to initiate the chat, then he can start the server, and the 1st person can
+run the client.
