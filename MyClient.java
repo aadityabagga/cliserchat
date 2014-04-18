@@ -69,7 +69,7 @@ class MyClient
     {
 	    try
 	    {
-		System.out.println("(Type /y to terminate the message) :");
+		System.out.println("(Type /y to terminate the message, or /quit to end conversation):");
 		String temp=null;
 		sent="";
 			
@@ -78,6 +78,11 @@ class MyClient
 			temp=br.readLine();
 			if(temp.equalsIgnoreCase("/y"))
 				break;
+			else if(temp.equalsIgnoreCase("/quit")) {
+				oos.writeObject("(Client quit the conversation)\n");
+				oos.flush();
+				return 1;
+			}
 			else
 				sent=sent+temp+"\n";
 			
