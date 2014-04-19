@@ -108,9 +108,15 @@ class MyServer
 			if(temp.equalsIgnoreCase("/y"))
 				break;
 			else if(temp.equalsIgnoreCase("/quit")) {
-				oos.writeObject("(Server quit the conversation)\n");
-				oos.flush();
-				return 1;
+				if(sent.equals("")) {
+					//Flush stream and exit
+					oos.flush();
+					return 1;
+				} else {
+					oos.writeObject(sent+"(Server quit the conversation)\n");
+					oos.flush();
+					return 1;
+				}
 			}
 			else
 				sent=sent+temp+"\n";

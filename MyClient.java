@@ -31,7 +31,7 @@ class MyClient
     public void runCli(String ipaddr,int portno)
     {
     	try
-	{
+		{
 		/*s=new Socket("localhost",1025);*/
 		s=new Socket(ipaddr,portno);
 		
@@ -56,13 +56,13 @@ class MyClient
 				break;
 				
 		}
-	}
+		}
 		
-	catch(Exception e)
-	{
-		System.out.println(e);
-		System.out.println("Server not available");
-	}
+		catch(Exception e)
+		{
+			System.out.println(e);
+			System.out.println("Server not available");
+		}
     }
     
     int sendMessage()
@@ -79,9 +79,15 @@ class MyClient
 			if(temp.equalsIgnoreCase("/y"))
 				break;
 			else if(temp.equalsIgnoreCase("/quit")) {
-				oos.writeObject("(Client quit the conversation)\n");
-				oos.flush();
-				return 1;
+				if(sent.equals("")) {
+					//Flush stream and exit
+					oos.flush();
+					return 1;
+				} else {
+					oos.writeObject(sent+"(Client quit the conversation)\n");
+					oos.flush();
+					return 1;
+				}
 			}
 			else
 				sent=sent+temp+"\n";
