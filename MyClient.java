@@ -60,7 +60,7 @@ class MyClient
 				break;
 				
 		}
-		}
+	}
 		
 		catch(Exception e)
 		{
@@ -118,7 +118,6 @@ class MyClient
 		System.out.println("\nSERVER->");
 		System.out.println(recieved);
 		return 0;
-		
 	}
 		
 	catch(Exception e)
@@ -145,7 +144,6 @@ class MyClient
 				}
 				
 			}
-			
 			
 		}
 		catch(ArrayIndexOutOfBoundsException e1)
