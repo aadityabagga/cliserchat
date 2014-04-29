@@ -15,7 +15,7 @@ Copyright (C) 2014  Aaditya Bagga  aaditya_gnulinux@zoho.com
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-Server*/
+Server module*/
 
 import java.io.*;
 import java.net.*;
@@ -50,6 +50,7 @@ class MyServer
 		
 		br=new BufferedReader(new InputStreamReader(System.in));
 		
+		//Infinte recieve message - send message loop
 		int status=0;
 		while(true)
 		{
@@ -143,8 +144,8 @@ class MyServer
 		}
 		catch(ArrayIndexOutOfBoundsException e1)
 		{
+			/*Default port no when no command line argument specified*/
 			s.runSer(1025);
-			//System.out.println("Please enter arguments");
 		}
 
 	}

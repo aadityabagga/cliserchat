@@ -15,7 +15,7 @@ Copyright (C) 2014  Aaditya Bagga  aaditya_gnulinux@zoho.com
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-Client*/
+Client module*/
 
 import java.io.*;
 import java.net.*;
@@ -32,16 +32,19 @@ class MyClient
     {
     	try
 	{
-		/*s=new Socket("localhost",1025);*/
+		/*Create a socket for connecting to server*/
 		s=new Socket(ipaddr,portno);
 		
 		System.out.println("-----------------------------------------------------------\nClient-Server Chat Application \n-----------------------------------------------------------\nPress Ctrl^C or Alt+F4 to quit this application.");
 			
 		System.out.println("\nClient- Using port: "+s.getLocalPort()+"\nSuccessfully connected to Server.\nIP: "+s.getInetAddress()+"\tPort: "+s.getPort()+"\tName: "+s.getInetAddress().getHostName()+"\n");
+
+		/*Create streams for input and output*/
 		ois=new ObjectInputStream(s.getInputStream());
 		oos=new ObjectOutputStream(s.getOutputStream());
 		br=new BufferedReader(new InputStreamReader(System.in));
 		
+		/*Infinite send - recieve loop*/
 		int status=0;			
 		while(true)
 		{
@@ -85,7 +88,6 @@ class MyClient
 			}
 			else
 				sent=sent+temp+"\n";
-			
 		} 
 
 		oos.writeObject(sent);
@@ -123,7 +125,7 @@ class MyClient
     public static void main(String args[]) throws Exception
 	{
 	    MyClient c1=new MyClient();
-	    String ipaddr="127.0.0.1";
+	    String ipaddr="127.0.0.1";	/*Default IP address of server = localhost*/
 
 	    /*Parse command line options*/
 
@@ -141,8 +143,9 @@ class MyClient
 		}
 		catch(ArrayIndexOutOfBoundsException e1)
 		{
+			/*Default port for connection is 1025*/			
 			c1.runCli(ipaddr,1025);
-			//System.out.println("Please enter arguments");
+
 		}
 	}
 }
