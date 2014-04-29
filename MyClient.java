@@ -33,7 +33,6 @@ class MyClient
     {
     	try
 	{
-		{
 		/*Create a socket for connecting to server*/
 		s=new Socket(ipaddr,portno);
 		
