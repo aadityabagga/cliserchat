@@ -19,43 +19,40 @@ Client module*/
 
 import java.io.*;
 import java.net.*;
+import common.Server;
 
 class MyClient
 {
-    String sent="";
-    String recieved=null;
-    ObjectInputStream ois=null;
-    ObjectOutputStream oos=null;
-    BufferedReader br=null;
-    Socket s=null;
-    
     public void runCli(String ipaddr,int portno)
     {
     	try
 	{
 		/*Create a socket for connecting to server*/
-		s=new Socket(ipaddr,portno);
+		Socket s = new Socket(ipaddr,portno);
 		
 		System.out.println("-----------------------------------------------------------\nClient-Server Chat Application \n-----------------------------------------------------------\nPress Ctrl^C or Alt+F4 to quit this application.");
 			
 		System.out.println("\nClient- Using port: "+s.getLocalPort()+"\nSuccessfully connected to Server.\nIP: "+s.getInetAddress()+"\tPort: "+s.getPort()+"\tName: "+s.getInetAddress().getHostName()+"\n");
 
 		/*Create streams for input and output*/
-		ois=new ObjectInputStream(s.getInputStream());
-		oos=new ObjectOutputStream(s.getOutputStream());
-		br=new BufferedReader(new InputStreamReader(System.in));
+		ObjectInputStream is = new ObjectInputStream(s.getInputStream());
+		ObjectOutputStream os = new ObjectOutputStream(s.getOutputStream());
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		
+		// Create an object of the server class and pass it the parameters
+		Server cli = new Server("Client", is, os);
+
 		/*Infinite send - recieve loop*/
 		int status=0;			
 		while(true)
 		{
 			System.out.print("Enter message ");
-			status=sendMessage();
+			status = cli.sendMessage("Server");
 			if (status == 1)
 				break;
 			
 			System.out.println("\nWaiting for response... ");
-			status=receiveMessage();
+			status = cli.recvMessage("Server");
 			if (status == 1)
 				break;
 				
@@ -67,65 +64,6 @@ class MyClient
 			System.out.println(e);
 			System.out.println("Server not available");
 		}
-    }
-    
-    int sendMessage()
-    {
-	    try
-	    {
-		System.out.println("(Type /y to terminate the message, or /quit to end conversation):");
-		String temp=null;
-		sent="";
-			
-		while(true)
-		{
-			temp=br.readLine();
-			if(temp.equalsIgnoreCase("/y"))
-				break;
-			else if(temp.equalsIgnoreCase("/quit")) {
-				if(sent.equals("")) {
-					//Flush stream and exit
-					oos.flush();
-					return 1;
-				} else {
-					oos.writeObject(sent+"(Client quit the conversation)\n");
-					oos.flush();
-					return 1;
-				}
-			}
-			else
-				sent=sent+temp+"\n";
-		} 
-
-		oos.writeObject(sent);
-		oos.flush();
-		return 0;
-	    }
-		
-	   catch(Exception e)
-	   {
-		System.out.println("Error: "+e);
-		System.out.println("Unable to reach server");
-		return 1;
-	   }
-     }
-	
-     int receiveMessage()
-     {
-	try
-	{
-		recieved=(String)ois.readObject();
-		System.out.println("\nSERVER->");
-		System.out.println(recieved);
-		return 0;
-	}
-		
-	catch(Exception e)
-	{
-		System.out.println("Error: "+e);
-		System.out.println("Server not reachable");
-		return 1;
-	}
     }
     
     public static void main(String args[]) throws Exception

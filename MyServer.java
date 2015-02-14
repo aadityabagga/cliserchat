@@ -1,65 +1,66 @@
 /*Client Server Communication via Sockets
-
-Copyright (C) 2014  Aaditya Bagga  aaditya_gnulinux@zoho.com
-
-  This program is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  any later version.
-
-  This program is distributed WITHOUT ANY WARRANTY;
-  without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-  See the GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-Server module*/
+*
+*Copyright(C) 2014-2014 Aaditya Bagga < aaditya_gnulinux@zoho.com>
+*
+*  This program is free software: you can redistribute it and/or modify
+*  it under the terms of the GNU General Public License as published by
+*  the Free Software Foundation, either version 3 of the License, or
+*  any later version.
+*
+*  This program is distributed WITHOUT ANY WARRANTY;
+*  without even the implied warranty of
+*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+*  See the GNU General Public License for more details.
+*
+*  You should have received a copy of the GNU General Public License
+*  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*
+*Server module
+*/
 
 import java.io.*;
 import java.net.*;
+import common.Server;
 
 class MyServer
 {		
-    String sent="",recieved=null;
-    ObjectInputStream ois=null;
-    ObjectOutputStream oos=null;
-    BufferedReader br=null;
-    ServerSocket s=null;
-    
     public void runSer(int sock)
     {
 	try
 	{
-		//1. Create a server socket
-		s=new ServerSocket(sock);
+		// Create a server socket
+		ServerSocket ss = new ServerSocket(sock);
 	
 		System.out.println("-----------------------------------------------------------\nClient-Server Chat Application \n-----------------------------------------------------------\nPress Ctrl^C or Alt+F4 to quit this application.\n");
 			
-		//2. Wait for connection
-		System.out.println("Server- Using port: "+s.getLocalPort()+"\nWaiting for connection from Client..\n");
-		Socket connection=s.accept();
-		System.out.println("Connection received from client.\nIP: "+connection.getInetAddress()+"\tPort: "+connection.getPort()+"\tName: "+connection.getInetAddress().getHostName());
+		// Wait for connection
+		System.out.println("Server- Using port: " + ss.getLocalPort() + "\nWaiting for connection from Client..\n");
+		Socket s = ss.accept();
+
+		// Got the connection
+		System.out.println("Connection received from client " + s.getRemoteSocketAddress() + " (" + s.getInetAddress().getHostName() + ")");
 		System.out.println("\nWaiting for response... ");
 
-		//3. Get Input and Output streams
-		oos=new ObjectOutputStream(connection.getOutputStream());
-		oos.flush();
-		ois=new ObjectInputStream(connection.getInputStream());
-		
-		br=new BufferedReader(new InputStreamReader(System.in));
+		// Get Input and Output streams
+		// Output stream needs to be obtained first else it fails (why?)
+		ObjectOutputStream oos = new ObjectOutputStream(s.getOutputStream());
+		oos.flush();	// Why?
+		ObjectInputStream ois = new ObjectInputStream(s.getInputStream());
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+		// Create an object of the server class and pass it the parameters
+		Server ser = new Server("Server", ois, oos);
 		
 		//Infinte recieve message - send message loop
 		int status=0;
 		while(true)
 		{
-			status=receiveMessage();
+			status = ser.recvMessage("Client");
 			if (status == 1)
 				break;
 
 			System.out.print("Enter message ");					
-			status=sendMessage();
+			status = ser.sendMessage("Client");
 			if (status == 1)
 				break;
 				
@@ -70,73 +71,12 @@ class MyServer
 	catch(Exception e)
 	{
 		System.out.println(e);
+		// Can we not exit if client disconnects?
 		System.exit(1);
 	}	
 		
     }
     
-    int receiveMessage()
-    {
-	try
-	{
-		recieved=(String)ois.readObject();
-		System.out.println("\nCLIENT->");
-		System.out.println(recieved);
-		return 0;
-				
-	}
-	
-	catch(Exception e)
-	{
-		System.out.println("Error: "+e);
-		System.out.println("Connection lost from client");
-		return 1;
-	}
-		
-    }
-
-	int sendMessage()
-	{
-	    try
-	    {
-		System.out.println("(Type /y to terminate the message, or /quit to end conversation):");
-		String temp=null;
-		sent="";
-			
-		while(true)
-		{
-			temp=br.readLine();
-			if(temp.equalsIgnoreCase("/y"))
-				break;
-			else if(temp.equalsIgnoreCase("/quit")) {
-				if(sent.equals("")) {
-					//Flush stream and exit
-					oos.flush();
-					return 1;
-				} else {
-					oos.writeObject(sent+"(Server quit the conversation)\n");
-					oos.flush();
-					return 1;
-				}
-			}
-			else
-				sent=sent+temp+"\n";
-			
-		} 
-		oos.writeObject(sent);
-		oos.flush();
-		return 0;
-	}
-		
-	catch(Exception e)
-	{
-		System.out.println("Error "+e);
-		System.out.println("Unable to reach client");
-		return 1;
-		
-	}
-      }
-		
 	public static void main(String args[])
 	{
 	    MyServer s=new MyServer();
@@ -155,6 +95,4 @@ class MyServer
 		}
 
 	}
-}  	    
-	
-			
+}

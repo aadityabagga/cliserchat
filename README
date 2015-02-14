@@ -82,6 +82,7 @@ Press Ctrl^C or Alt+F4 to quit this application.
 Server- Using port: 1025
 Waiting for connection from Client..
 
+
 b) Starting the client on another terminal and typing a message-
 
 $ java MyClient
@@ -100,6 +101,7 @@ Hello
 
 Waiting for response... 
 
+
 c) The server gets the clients message and responds-
 
 Connection received from client.
@@ -116,6 +118,7 @@ Hi
 
 Waiting for response... 
 
+
 d) The client receives the message-
 
 SERVER->
@@ -126,6 +129,7 @@ How are you?
 /y
 
 Waiting for response... 
+
 
 e) And so on..
 
