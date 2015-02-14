@@ -59,7 +59,7 @@ class MyServer
 			if (status == 1)
 				break;
 
-			System.out.print("Enter message ");					
+			System.out.print("\nEnter message ");
 			status = ser.sendMessage("Client");
 			if (status == 1)
 				break;

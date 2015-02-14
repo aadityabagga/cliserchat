@@ -35,18 +35,18 @@ class MyClient
 		System.out.println("\nClient- Using port: "+s.getLocalPort()+"\nSuccessfully connected to Server.\nIP: "+s.getInetAddress()+"\tPort: "+s.getPort()+"\tName: "+s.getInetAddress().getHostName()+"\n");
 
 		/*Create streams for input and output*/
-		ObjectInputStream is = new ObjectInputStream(s.getInputStream());
-		ObjectOutputStream os = new ObjectOutputStream(s.getOutputStream());
+		ObjectInputStream ois = new ObjectInputStream(s.getInputStream());
+		ObjectOutputStream oos = new ObjectOutputStream(s.getOutputStream());
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		
 		// Create an object of the server class and pass it the parameters
-		Server cli = new Server("Client", is, os);
+		Server cli = new Server("Client", ois, oos);
 
 		/*Infinite send - recieve loop*/
 		int status=0;			
 		while(true)
 		{
-			System.out.print("Enter message ");
+			System.out.print("\nEnter message ");
 			status = cli.sendMessage("Server");
 			if (status == 1)
 				break;

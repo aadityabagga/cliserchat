@@ -28,11 +28,11 @@ public class Server
 	// Data items
 	String sent = "";
 	String recieved = "";
-	String whoami="";
+	String whoami = "";
 	ObjectInputStream ois = null;
 	ObjectOutputStream oos = null;
 	// Initialization
-	public Server (String w, ObjectInputStream ois, ObjectOutputStream oos)
+	public Server(String w, ObjectInputStream ois, ObjectOutputStream oos)
 	{
 		whoami = w;
 		this.ois = ois;
@@ -44,13 +44,13 @@ public class Server
 	try
 	{
 		recieved = (String)ois.readObject();
-		System.out.println("\n" + recvfrom + ":\n");
+		System.out.println("\n" + recvfrom + ":");
 		System.out.println(recieved);
 		return 0;
 	}
 	catch(Exception e)
 	{
-		System.out.println("Error: "+e);
+		System.out.println("Error: " + e);
 		System.out.println("Connection lost from " + recvfrom);
 		return 1;
 	}
@@ -63,8 +63,7 @@ public class Server
 	{
 		/* Return codes
 		 * 0 = relevant message
-		 * 1 = return
-		 * 2 = return with whoami quit message
+		 * 1 = return with whoami quit message
 		 */
 		try
 		{
@@ -79,16 +78,10 @@ public class Server
 				temp=br.readLine();
 				if(temp.equalsIgnoreCase("/y"))
 					return 0;
-				else if(temp.equalsIgnoreCase("/quit")) {
-					if(sent.equals(""))
-					{
-						return 1;
-					}
-					else
-					{
-						sent = sent + "(" + whoami + " quit the conversation)\n";
-						return 2;
-					}
+				else if(temp.equalsIgnoreCase("/quit"))
+				{
+					sent = sent + "(" + whoami + " quit the conversation)\n";
+					return 1;
 				}
 				else
 				{
@@ -107,23 +100,16 @@ public class Server
 	    try
 	    {
 		int status = getMessage();			
+		// Transmit the message
+		oos.writeObject(sent);
+		oos.flush();
+		// Quit if /quit was typed (status == 1)
 		if(status == 0)
 		{
-			oos.writeObject(sent);
-			oos.flush();
 			return 0;
-		}
-		else if (status == 2)
-		{
-			// whoami quit message
-			oos.writeObject(sent);
-			oos.flush();
-			return 1;
 		}
 		else
 		{
-			// no message
-			oos.flush();
 			return 1;
 		}
 	}
