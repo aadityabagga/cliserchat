@@ -98,29 +98,29 @@ public class Server
 	{
 	    try
 	    {
-		int status = getMessage();			
-		// Encrypt the message
-		//ObjectCrypter oc = new ObjectCrypter();
-		//sent = oc.encrypt();
-		//System.out.println(sent);
-		// Transmit the message
-		oos.writeObject(sent);
-		oos.flush();
-		// Quit if /quit was typed (status == 1)
-		if(status == 0)
-		{
-			return 0;
-		}
-		else
-		{
-			return 1;
-		}
-	}
-	catch(Exception e)
-	{
-		System.out.println("Error " + e);
-		System.out.println("Unable to reach " + sendto);
-		return 1;
-	}
+		    int status = getMessage();
+		    // Encrypt the message
+		    //ObjectCrypter oc = new ObjectCrypter();
+		    //sent = oc.encrypt();
+		    //System.out.println(sent);
+		    // Transmit the message
+		    oos.writeObject(sent);
+		    oos.flush();
+		    // Quit if /quit was typed (status == 1)
+		    if(status == 0)
+		    {
+			    return 0;
+		    }
+		    else
+		    {
+			    return 1;
+		    }
+	    }
+	    catch(Exception e)
+	    {
+		    System.out.println("Error " + e);
+		    System.out.println("Unable to reach " + sendto);
+		    return 1;
+	    }
     }
 }

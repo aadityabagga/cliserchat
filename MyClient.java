@@ -23,66 +23,64 @@ import common.Server;
 
 class MyClient
 {
-    public void runCli(String ipaddr,int portno)
-    {
-    	try
+	public void runCli(String ipaddr,int portno)
 	{
-		/*Create a socket for connecting to server*/
-		Socket s = new Socket(ipaddr,portno);
-		
-		System.out.println("-----------------------------------------------------------\nClient-Server Chat Application \n-----------------------------------------------------------\nPress Ctrl^C to terminate this application.");
-
-		System.out.println("\nCurrent role: Client \nUsing port: "+s.getLocalPort()+"\nSuccessfully connected to Server "+s.getRemoteSocketAddress() + " (" + s.getInetAddress().getHostName()+")\n");
-
-		/*Create streams for input and output*/
-		ObjectInputStream ois = new ObjectInputStream(s.getInputStream());
-		ObjectOutputStream oos = new ObjectOutputStream(s.getOutputStream());
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		
-		// Create an object of the server class and pass it the parameters
-		Server cli = new Server("Client", ois, oos);
-
-		/*Infinite send - recieve loop*/
-		int status=0;			
-		while(true)
+		try
 		{
-			System.out.print("\nEnter message ");
-			status = cli.sendMessage("Server");
-			if (status == 1)
-				break;
-			
-			System.out.println("\nWaiting for response... ");
-			status = cli.recvMessage("Server");
-			if (status == 1)
-				break;
-				
+			/*Create a socket for connecting to server*/
+			Socket s = new Socket(ipaddr,portno);
+
+			System.out.println("-----------------------------------------------------------\nClient-Server Chat Application \n-----------------------------------------------------------\nPress Ctrl^C to terminate this application.");
+
+			System.out.println("\nCurrent role: Client \nUsing port: "+s.getLocalPort()+"\nSuccessfully connected to Server "+s.getRemoteSocketAddress() + " (" + s.getInetAddress().getHostName()+")\n");
+
+			/*Create streams for input and output*/
+			ObjectInputStream ois = new ObjectInputStream(s.getInputStream());
+			ObjectOutputStream oos = new ObjectOutputStream(s.getOutputStream());
+			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+			// Create an object of the server class and pass it the parameters
+			Server cli = new Server("Client", ois, oos);
+
+			/*Infinite send - recieve loop*/
+			int status=0;
+			while(true)
+			{
+				System.out.print("\nEnter message ");
+				status = cli.sendMessage("Server");
+				if (status == 1)
+					break;
+
+				System.out.println("\nWaiting for response... ");
+				status = cli.recvMessage("Server");
+				if (status == 1)
+					break;
+			}
 		}
-	}
-		
 		catch(Exception e)
 		{
 			System.out.println(e);
 			System.out.println("Server not available");
 		}
-    }
+	}
     
-    public static void main(String args[]) throws Exception
+	public static void main(String args[]) throws Exception
 	{
-	    MyClient c1=new MyClient();
-	    String ipaddr="127.0.0.1";	/*Default IP address of server = localhost*/
+		MyClient c1=new MyClient();
+		String ipaddr="127.0.0.1";	/*Default IP address of server = localhost*/
 
-	    /*Parse command line options*/
-
-		try {
-			if(args[0] != null) {
+		/*Parse command line options*/
+		try
+		{
+			if(args[0] != null)
+			{
 				ipaddr=args[0];
-				if(args[1] != null) {
+				if(args[1] != null)
+				{
 					// If no error thrown
 					c1.runCli(args[0],Integer.parseInt(args[1]));
 				}
-				
 			}
-			
 		}
 		catch(ArrayIndexOutOfBoundsException e1)
 		{

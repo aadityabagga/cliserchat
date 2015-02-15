@@ -24,66 +24,64 @@ import common.Server;
 
 class MyServer
 {		
-    public void runSer(int sock)
-    {
-	try
+	public void runSer(int sock)
 	{
-		// Create a server socket
-		ServerSocket ss = new ServerSocket(sock);
-	
-		System.out.println("-----------------------------------------------------------\nClient-Server Chat Application \n-----------------------------------------------------------\nPress Ctrl^C to terminate this application.\n");
-			
-		// Wait for connection
-		System.out.println("Current role: Server \nUsing port: " + ss.getLocalPort() + "\nWaiting for connection from Client..\n");
-		Socket s = ss.accept();
-
-		// Got the connection
-		System.out.println("Connection received from client " + s.getRemoteSocketAddress() + " (" + s.getInetAddress().getHostName() + ")");
-		System.out.println("\nWaiting for response... ");
-
-		// Get Input and Output streams
-		// Output stream needs to be obtained first else it fails (why?)
-		ObjectOutputStream oos = new ObjectOutputStream(s.getOutputStream());
-		oos.flush();	// Why?
-		ObjectInputStream ois = new ObjectInputStream(s.getInputStream());
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
-		// Create an object of the server class and pass it the parameters
-		Server ser = new Server("Server", ois, oos);
-		
-		//Infinte recieve message - send message loop
-		int status=0;
-		while(true)
+		try
 		{
-			status = ser.recvMessage("Client");
-			if (status == 1)
-				break;
+			// Create a server socket
+			ServerSocket ss = new ServerSocket(sock);
 
-			System.out.print("\nEnter message ");
-			status = ser.sendMessage("Client");
-			if (status == 1)
-				break;
-				
+			System.out.println("-----------------------------------------------------------\nClient-Server Chat Application \n-----------------------------------------------------------\nPress Ctrl^C to terminate this application.\n");
+		
+			// Wait for connection
+			System.out.println("Current role: Server \nUsing port: " + ss.getLocalPort() + "\nWaiting for connection from Client..\n");
+			Socket s = ss.accept();
+
+			// Got the connection
+			System.out.println("Connection received from client " + s.getRemoteSocketAddress() + " (" + s.getInetAddress().getHostName() + ")");
 			System.out.println("\nWaiting for response... ");
+
+			// Get Input and Output streams
+			// Output stream needs to be obtained first else it fails (why?)
+			ObjectOutputStream oos = new ObjectOutputStream(s.getOutputStream());
+			oos.flush();	// Why?
+			ObjectInputStream ois = new ObjectInputStream(s.getInputStream());
+			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+			// Create an object of the server class and pass it the parameters
+			Server ser = new Server("Server", ois, oos);
+
+			//Infinte recieve message - send message loop
+			int status=0;
+			while(true)
+			{
+				status = ser.recvMessage("Client");
+				if (status == 1)
+					break;
+
+				System.out.print("\nEnter message ");
+				status = ser.sendMessage("Client");
+				if (status == 1)
+					break;
+
+				System.out.println("\nWaiting for response... ");
+			}
+		}
+		catch(Exception e)
+		{
+			System.out.println(e);
+			// Can we not exit if client disconnects?
+			System.exit(1);
 		}
 	}
-		
-	catch(Exception e)
-	{
-		System.out.println(e);
-		// Can we not exit if client disconnects?
-		System.exit(1);
-	}	
-		
-    }
-    
+ 
 	public static void main(String args[])
 	{
-	    MyServer s=new MyServer();
+		MyServer s=new MyServer();
 
-	    /*Parse command line options*/
-
-		try {
+		/*Parse command line options*/
+		try
+		{
 			if(args[0] != null);
 			// If no error thrown
 			s.runSer(Integer.parseInt(args[0]));
@@ -93,6 +91,5 @@ class MyServer
 			/*Default port no when no command line argument specified*/
 			s.runSer(1025);
 		}
-
 	}
 }
