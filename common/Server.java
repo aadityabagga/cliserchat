@@ -38,24 +38,23 @@ public class Server
 		this.ois = ois;
 		this.oos = oos;
 	}
-    
-    public int recvMessage(String recvfrom)
-    {
-	try
+
+	public int recvMessage(String recvfrom)
 	{
-		recieved = (String)ois.readObject();
-		System.out.println("\n" + recvfrom + ":");
-		System.out.println(recieved);
-		return 0;
+		try
+		{
+			recieved = (String)ois.readObject();
+			System.out.println("\n" + recvfrom + ":");
+			System.out.println(recieved);
+			return 0;
+		}
+		catch(Exception e)
+		{
+			System.out.println("Error: " + e);
+			System.out.println("Connection lost from " + recvfrom);
+			return 1;
+		}
 	}
-	catch(Exception e)
-	{
-		System.out.println("Error: " + e);
-		System.out.println("Connection lost from " + recvfrom);
-		return 1;
-	}
-		
-    }
 
 	// getMessage split from sendMessage to allow encrypting of messages
 	// Idea of encrypting thx to tibs245
@@ -68,7 +67,7 @@ public class Server
 		try
 		{
 			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-			System.out.println("(Type /y to terminate the message, or /quit to end conversation):");
+			System.out.println("(Type /y (on a new line, followed by enter) to terminate the message, or /quit (similar to /y) to end conversation):");
 			String temp=null;
 			sent = ""; // needed else erronous output, why?
 			
@@ -100,6 +99,10 @@ public class Server
 	    try
 	    {
 		int status = getMessage();			
+		// Encrypt the message
+		//ObjectCrypter oc = new ObjectCrypter();
+		//sent = oc.encrypt();
+		//System.out.println(sent);
 		// Transmit the message
 		oos.writeObject(sent);
 		oos.flush();

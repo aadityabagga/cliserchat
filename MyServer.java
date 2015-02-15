@@ -31,10 +31,10 @@ class MyServer
 		// Create a server socket
 		ServerSocket ss = new ServerSocket(sock);
 	
-		System.out.println("-----------------------------------------------------------\nClient-Server Chat Application \n-----------------------------------------------------------\nPress Ctrl^C or Alt+F4 to quit this application.\n");
+		System.out.println("-----------------------------------------------------------\nClient-Server Chat Application \n-----------------------------------------------------------\nPress Ctrl^C to terminate this application.\n");
 			
 		// Wait for connection
-		System.out.println("Server- Using port: " + ss.getLocalPort() + "\nWaiting for connection from Client..\n");
+		System.out.println("Current role: Server \nUsing port: " + ss.getLocalPort() + "\nWaiting for connection from Client..\n");
 		Socket s = ss.accept();
 
 		// Got the connection

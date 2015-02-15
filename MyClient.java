@@ -30,9 +30,9 @@ class MyClient
 		/*Create a socket for connecting to server*/
 		Socket s = new Socket(ipaddr,portno);
 		
-		System.out.println("-----------------------------------------------------------\nClient-Server Chat Application \n-----------------------------------------------------------\nPress Ctrl^C or Alt+F4 to quit this application.");
-			
-		System.out.println("\nClient- Using port: "+s.getLocalPort()+"\nSuccessfully connected to Server.\nIP: "+s.getInetAddress()+"\tPort: "+s.getPort()+"\tName: "+s.getInetAddress().getHostName()+"\n");
+		System.out.println("-----------------------------------------------------------\nClient-Server Chat Application \n-----------------------------------------------------------\nPress Ctrl^C to terminate this application.");
+
+		System.out.println("\nCurrent role: Client \nUsing port: "+s.getLocalPort()+"\nSuccessfully connected to Server "+s.getRemoteSocketAddress() + " (" + s.getInetAddress().getHostName()+")\n");
 
 		/*Create streams for input and output*/
 		ObjectInputStream ois = new ObjectInputStream(s.getInputStream());
