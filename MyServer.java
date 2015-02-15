@@ -46,7 +46,6 @@ class MyServer
 			ObjectOutputStream oos = new ObjectOutputStream(s.getOutputStream());
 			oos.flush();	// Why?
 			ObjectInputStream ois = new ObjectInputStream(s.getInputStream());
-			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
 			// Create an object of the server class and pass it the parameters
 			Server ser = new Server("Server", ois, oos);
@@ -66,6 +65,7 @@ class MyServer
 
 				System.out.println("\nWaiting for response... ");
 			}
+			ss.close();
 		}
 		catch(Exception e)
 		{

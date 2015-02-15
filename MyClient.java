@@ -37,7 +37,6 @@ class MyClient
 			/*Create streams for input and output*/
 			ObjectInputStream ois = new ObjectInputStream(s.getInputStream());
 			ObjectOutputStream oos = new ObjectOutputStream(s.getOutputStream());
-			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
 			// Create an object of the server class and pass it the parameters
 			Server cli = new Server("Client", ois, oos);
@@ -56,11 +55,12 @@ class MyClient
 				if (status == 1)
 					break;
 			}
+			s.close();
 		}
 		catch(Exception e)
 		{
 			System.out.println(e);
-			System.out.println("Server not available");
+			System.out.println("Server not available at " + ipaddr + ":" +portno);
 		}
 	}
     
